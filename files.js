@@ -63,19 +63,25 @@ export default class ManageInternalFiles {
     static clear = (path) => {
 
         // finding path if name is provided
-        if(path+''.charAt(0) == '$') {
+        if(path.charAt(0) == '$') {
 
             path = ManageInternalFiles.resolvePath(path);
         }
 
         // clearing the file content
-        try {
+        if(fs.existsSync(path)) {
 
-            fs.writeFile(path, "");
-        } catch (err) {
+            try {
 
-            console.error('Could not clear the file: ' +path);
-            console.error(err);
+                fs.writeFile(path, "", (err) => {});
+            } catch (err) {
+    
+                console.error('Could not clear the file: ' +path);
+                console.error(err);
+            }
+        } else {
+
+            console.error('Path does not exist: ' +path);
         }
     }
 
