@@ -11,24 +11,6 @@ export default class ManageInternalFiles {
     constructor () {
 
     }
-
-    
-    // function to resolve name of file into path 
-    static resolvePath = (name) => {
-
-        // accessing the general config
-        const config = ManageInternalFiles.access('./generalConfig.json');
-
-        // returning the file path
-        try {
-
-            return config.name+'';
-        } catch (err) {
-
-            console.error('Name not recognized: ' +name);
-            return;
-        }
-    }
     
 
     // This function would allow the programmer to access the requested file as json object.
@@ -60,5 +42,40 @@ export default class ManageInternalFiles {
                 return;
             }
         })
+    }
+
+
+    // This function would list the various files that are managed by the ManageInternalFiles Class.
+    static listFiles = () => {
+
+        // accessing the fileData file
+        const files = ManageInternalFiles.access('./fileData.json');
+
+        // loop variable
+        var i = 0;
+        // traversing through each element of the files array to display name and path
+        files.names.forEach(element => {
+            
+            console.log(element +'\t' +files.paths[i]);
+            i++;
+        });
+    }
+
+
+    // function to resolve name of file into path 
+    static resolvePath = (name) => {
+
+        // accessing the general config
+        const config = ManageInternalFiles.access('./generalConfig.json');
+
+        // returning the file path
+        try {
+
+            return config.name+'';
+        } catch (err) {
+
+            console.error('Name not recognized: ' +name);
+            return;
+        }
     }
 }
