@@ -185,24 +185,23 @@ export default class ManageInternalFiles {
         try {
 
             const list = config.names;
-            var i = 0, j = 0;
-            list.forEach(val => {
+            var path = "";
+            var j = -1;
+            list.forEach((val, index) => {
 
                 if(val == name) {
 
-                    return;
+                    j++;
+                    path = config.paths[index];
                 }
-
-                i++;
-                j++;
             })
 
-            if (j == 0) {
+            if (j == -1) {
 
                 console.log('Name not recognized: ' +name);
             }
 
-            return config.paths[i];
+            return path;
         } catch (err) {
 
             console.error('Name not recognized: ' +name);
