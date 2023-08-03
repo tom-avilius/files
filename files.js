@@ -1,4 +1,3 @@
-import path from 'path';
 
 // importing the file-system module
 const fs = require('fs');
