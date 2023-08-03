@@ -16,7 +16,7 @@ export default class ManageInternalFiles {
 
 
     // function to append key data
-    static appendData = (path, key, data) => {
+    static append = (path, key, data) => {
 
         // finding path if name is provided
         if(path+''.charAt(0) == '$') {
