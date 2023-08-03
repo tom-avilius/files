@@ -1,1 +1,4 @@
-{}
+{
+    "names": ["generalConfig.json"],
+    "paths": ["./generalConfig.json"]
+}

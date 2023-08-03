@@ -8,9 +8,34 @@ const fs = require('fs');
 // json files for the application's internal use.
 export default class ManageInternalFiles {
 
-    // an empty constructor
+   
     constructor () {
 
+
+    }
+
+
+    // function to append key data
+    static appendData = (path, key, data) => {
+
+        // finding path if name is provided
+        if(path+''.charAt(0) == '$') {
+
+            path = ManageInternalFiles.resolvePath(path);
+        }
+
+        // accessing file
+        var fileData = ManageInternalFiles.access(path);
+        // appending new data;
+        fileData[key].push(data+'');
+
+        // converting object to string
+        const fileString = JSON.stringify(fileData);
+
+        // clearing the file
+        ManageInternalFiles.clear(path);
+        // writing to file
+        ManageInternalFiles.write(path, fileString);
     }
     
 
@@ -64,6 +89,23 @@ export default class ManageInternalFiles {
             console.error('Could not clear the file: ' +path);
             console.error(err);
         }
+    }
+
+
+    // function to create specified file
+    static create = (path, fileName) => {
+
+        // creating empty file
+        fs.writeFile(path, "", (err) => {
+
+            if (err) {
+
+                console.error('Could not create file: ' +path);
+                console.error(err);
+            }
+        })
+
+        ManageInternalFiles.appendData('$generalConfig.json', "names", fileName);
     }
 
 
@@ -152,14 +194,14 @@ export default class ManageInternalFiles {
         // appending the data
         const finalFileString = initialFileString+data;
 
-        // writing to data
-        try {
+        // writing data
+        fs.writeFile(path, finalFileString, (err) => {
 
-            fs.writeFile(path, finalFileString);
-        } catch (err) {
+            if(err) {
 
-            console.error('Could not write to file: ' +path);
-            console.error(err);
-        }
+                console.error('Could not write to file: ' +path);
+                console.error(err);
+            }
+        });
     }
 }
