@@ -105,7 +105,7 @@ export default class ManageInternalFiles {
             }
         })
 
-        ManageInternalFiles.appendData('$generalConfig.json', "names", fileName);
+        ManageInternalFiles.appendData('$generalConfig.json', "names", fileName+'');
     }
 
 
