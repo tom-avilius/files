@@ -45,6 +45,18 @@ export default class ManageInternalFiles {
     }
 
 
+    // function to print the details of the specified file.
+    static listContents = (path) => {
+
+        // accessing the specified file
+        const fileObject = ManageInternalFiles.access(path);
+        // converting it to string
+        const fileString = JSON.stringify(fileObject);
+
+        console.log(fileString);
+    }
+
+
     // This function would list the various files that are managed by the ManageInternalFiles Class.
     static listFiles = () => {
 
