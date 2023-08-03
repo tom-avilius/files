@@ -159,6 +159,27 @@ export default class ManageInternalFiles {
     }
 
 
+    // function to remove specified data from requested file
+    static remove = (path, key) => {
+
+        // finding path if name is provided
+        if(path+''.charAt(0) == '$') {
+
+            path = ManageInternalFiles.resolvePath(path);
+        }
+
+        // accessing the file
+        const fileData = ManageInternalFiles.access(path);
+        
+        fs.readFile('./fileData.json', (err, data) => {
+
+            const keys = data.keys();
+            console.log((typeof keys) + keys);
+        });
+
+    }
+
+
     // function to resolve name of file into path 
     static resolvePath = (name) => {
 
