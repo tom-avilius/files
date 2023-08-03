@@ -45,6 +45,25 @@ export default class ManageInternalFiles {
     }
 
 
+    // function to delete the specified file.
+    static delete = (path) => {
+
+        if(path+''.charAt(0) == '$') {
+
+            path = ManageInternalFiles.resolvePath(path);
+        }
+ 
+        try {
+
+            fs.rm(path);
+        } catch (err) {
+
+            console.error('Could not delete file: ' +path);
+            console.error(err);
+        }
+    }
+
+
     // function to print the details of the specified file.
     static listContents = (path) => {
 
