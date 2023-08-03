@@ -48,11 +48,13 @@ export default class ManageInternalFiles {
     // function to delete the specified file.
     static delete = (path) => {
 
+        // finding path if name is provided
         if(path+''.charAt(0) == '$') {
 
             path = ManageInternalFiles.resolvePath(path);
         }
  
+        // removing the file
         try {
 
             fs.rm(path);
@@ -107,6 +109,28 @@ export default class ManageInternalFiles {
 
             console.error('Name not recognized: ' +name);
             return;
+        }
+    }
+
+    // function to append to a certain file.
+    static write = (path, data) => {
+
+        // accessing the file
+        const initialFileObject = ManageInternalFiles.access(path);
+        // converting it to string
+        const initialFileString = JSON.stringify(initialFileObject);
+
+        // appending the data
+        const finalFileString = initialFileString+data;
+
+        // writing to data
+        try {
+
+            fs.writeFile(path, finalFileString);
+        } catch (err) {
+
+            console.error('Could not write to file: ' +path);
+            console.error(err);
         }
     }
 }
