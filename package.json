@@ -1,6 +1,7 @@
 {
   "name": "files",
   "version": "1.0.0",
+  "type": "module",
   "description": "A utility to manage internal json files within application.",
   "main": "files.js",
   "scripts": {

@@ -1,6 +1,6 @@
 
 // importing the file-system module
-const fs = require('fs');
+import fs from 'node:fs'
 
 // class to manage internal json files
 // This class would be used to *create, access and track* files, particularly 
@@ -18,7 +18,7 @@ export default class ManageInternalFiles {
     static append = (path, key, data) => {
 
         // finding path if name is provided
-        if(path+''.charAt(0) == '$') {
+        if(path.charAt(0) == '$') {
 
             path = ManageInternalFiles.resolvePath(path);
         }
@@ -40,33 +40,22 @@ export default class ManageInternalFiles {
 
     // This function would allow the programmer to access the requested file as json object.
     static access = (path) => {
-
         // find path when name is given
-        if(path+''.charAt(0) == '$') {
+        if(path.charAt(0) == '$') {
 
             path = ManageInternalFiles.resolvePath(path);
         }
 
         // reading the file;
-        fs.readFile(path+'', (err, jsonString) => {
+        try {
 
-            if(err) {
+            return JSON.parse(fs.readFileSync(path, { encoding: 'utf-8' }));
+        } catch (err) {
 
-                console.error('Failed to read file from disk: ' +path);
-                return;
-            } 
-
-            // parsing as a js object
-            try {
-
-                const data = JSON.parse(jsonString);
-                return data;
-            } catch (err) {
-
-                console.err('Failed to parse json string: ' +path);
-                return;
-            }
-        })
+            console.error('Could not read file: ' +path);
+            console.error(err);
+        }
+    
     }
 
 
@@ -104,7 +93,13 @@ export default class ManageInternalFiles {
             }
         })
 
-        ManageInternalFiles.appendData('$generalConfig.json', "names", fileName+'');
+        try {
+
+            ManageInternalFiles.append('$fileData.json', "names", fileName+'');
+        } catch (err) {
+
+            console.log(err);
+        }
     }
 
 
@@ -180,18 +175,38 @@ export default class ManageInternalFiles {
 
 
     // function to resolve name of file into path 
-    static resolvePath = (name) => {
+    static resolvePath = (name='') => {
 
         // accessing the general config
-        const config = ManageInternalFiles.access('./generalConfig.json');
+        const config = ManageInternalFiles.access('./fileData.json');
+        name = name.substring(1);
 
         // returning the file path
         try {
 
-            return config.name+'';
+            const list = config.names;
+            var i = 0, j = 0;
+            list.forEach(val => {
+
+                if(val == name) {
+
+                    return;
+                }
+
+                i++;
+                j++;
+            })
+
+            if (j == 0) {
+
+                console.log('Name not recognized: ' +name);
+            }
+
+            return config.paths[i];
         } catch (err) {
 
             console.error('Name not recognized: ' +name);
+            console.error(err);
             return;
         }
     }
