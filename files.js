@@ -177,6 +177,13 @@ export default class ManageInternalFiles {
     }
 
 
+    // function to store data inside generalConfig
+    static storeGeneralData = (data) => {
+
+       ManageInternalFiles.write('$generalConfig', data+'');
+    }
+
+
     // function to append to a certain file.
     static write = (path, data) => {
 
