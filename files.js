@@ -1,3 +1,4 @@
+import path from 'path';
 
 // importing the file-system module
 const fs = require('fs');
@@ -42,6 +43,27 @@ export default class ManageInternalFiles {
                 return;
             }
         })
+    }
+
+
+    // function to clear contents of specific file
+    static clear = (path) => {
+
+        // finding path if name is provided
+        if(path+''.charAt(0) == '$') {
+
+            path = ManageInternalFiles.resolvePath(path);
+        }
+
+        // clearing the file content
+        try {
+
+            fs.writeFile(path, "");
+        } catch (err) {
+
+            console.error('Could not clear the file: ' +path);
+            console.error(err);
+        }
     }
 
 
@@ -112,8 +134,15 @@ export default class ManageInternalFiles {
         }
     }
 
+
     // function to append to a certain file.
     static write = (path, data) => {
+
+        // finding path if name is provided
+        if(path+''.charAt(0) == '$') {
+
+            path = ManageInternalFiles.resolvePath(path);
+        }
 
         // accessing the file
         const initialFileObject = ManageInternalFiles.access(path);
