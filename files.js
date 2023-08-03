@@ -29,4 +29,36 @@ export default class ManageInternalFiles {
             return;
         }
     }
+    
+
+    // This function would allow the programmer to access the requested file as json object.
+    static access = (path) => {
+
+        // find path when name is given
+        if(path+''.charAt(0) == '$') {
+
+            path = ManageInternalFiles.resolvePath(path);
+        }
+
+        // reading the file;
+        fs.readFile(path+'', (err, jsonString) => {
+
+            if(err) {
+
+                console.error('Failed to read file from disk: ' +path);
+                return;
+            } 
+
+            // parsing as a js object
+            try {
+
+                const data = JSON.parse(jsonString);
+                return data;
+            } catch (err) {
+
+                console.err('Failed to parse json string: ' +path);
+                return;
+            }
+        })
+    }
 }
