@@ -34,6 +34,8 @@ export default class ManageInternalFiles {
         // clearing the file
         ManageInternalFiles.clear(path);
         // writing to file
+        console.log(fileString);
+        console.log(path);
         ManageInternalFiles.write(path, fileString);
     }
     
@@ -49,7 +51,10 @@ export default class ManageInternalFiles {
         // reading the file;
         try {
 
-            return JSON.parse(fs.readFileSync(path, { encoding: 'utf-8' }));
+            console.log(path + '65');
+            const data = fs.readFileSync(path, { encoding: 'utf-8' });
+            const val = JSON.parse(data)
+            return val;
         } catch (err) {
 
             console.error('Could not read file: ' +path);
@@ -102,8 +107,10 @@ export default class ManageInternalFiles {
         try {
 
             ManageInternalFiles.append('$fileData.json', "names", fileName+'');
+            // ManageInternalFiles.append('$fileData.json', 'paths', path+'');
         } catch (err) {
 
+            console.log('Reference could not be created to file: ' +path);
             console.log(err);
         }
     }
@@ -238,8 +245,17 @@ export default class ManageInternalFiles {
         // converting it to string
         const initialFileString = JSON.stringify(initialFileObject);
 
-        // appending the data
-        const finalFileString = initialFileString+data;
+        var finalFileString = ""; //to store final string data from file
+        
+        if((typeof initialFileString == 'undefined')) {
+
+            finalFileString = data;
+        } else {
+
+            // appending the data
+            finalFileString = initialFileString+data;
+        }
+        
 
         // writing data
         fs.writeFile(path, finalFileString, (err) => {

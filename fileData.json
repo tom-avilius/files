@@ -1,4 +1,1 @@
-{
-    "names": ["generalConfig.json", "fileData.json"],
-    "paths": ["./generalConfig.json", "./fileData.json"]
-}
+{"names":["generalConfig.json","fileData.json","lola"],"paths":["./generalConfig.json","./fileData.json"]}
