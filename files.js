@@ -34,14 +34,12 @@ export default class ManageInternalFiles {
         // clearing the file
         ManageInternalFiles.clear(path);
         // writing to file
-        console.log(fileString);
-        console.log(path);
         ManageInternalFiles.write(path, fileString);
     }
     
 
     // This function would allow the programmer to access the requested file as json object.
-    static access = (path) => {
+    static access = (path, disableEmptyFileWarning = false) => {
         // find path when name is given
         if(path.charAt(0) == '$') {
 
@@ -51,10 +49,20 @@ export default class ManageInternalFiles {
         // reading the file;
         try {
 
-            console.log(path + '65');
             const data = fs.readFileSync(path, { encoding: 'utf-8' });
-            const val = JSON.parse(data)
-            return val;
+            try {
+
+                const val = JSON.parse(data)
+                return val;
+            } catch (err) {
+
+                if (!disableEmptyFileWarning) {
+
+                    console.log("The file is probably empty: " +path);
+                }
+                return undefined;
+            }
+        
         } catch (err) {
 
             console.error('Could not read file: ' +path);
@@ -241,7 +249,7 @@ export default class ManageInternalFiles {
         }
 
         // accessing the file
-        const initialFileObject = ManageInternalFiles.access(path);
+        const initialFileObject = ManageInternalFiles.access(path, true);
         // converting it to string
         const initialFileString = JSON.stringify(initialFileObject);
 
