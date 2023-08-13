@@ -115,10 +115,18 @@ export default class ManageInternalFiles {
         try {
 
             ManageInternalFiles.append('$fileData.json', "names", fileName+'');
-            // ManageInternalFiles.append('$fileData.json', 'paths', path+'');
         } catch (err) {
 
-            console.log('Reference could not be created to file: ' +path);
+            console.log('Named reference could not be created to file: ' +path);
+            console.log(err);
+        }
+
+        try {
+
+            ManageInternalFiles.append('$fileData.json', 'paths', path+'');
+        } catch (err) {
+
+            console.log('Path Reference could not be created to file: ' +path);
             console.log(err);
         }
     }
